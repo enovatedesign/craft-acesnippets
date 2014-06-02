@@ -1,0 +1,25 @@
+{% import "_includes/forms" as forms %}
+
+{% include "acesnippets/_editor" with { textarea: false } %}
+
+{{ forms.textarea({
+    id:    name ~ '-content',
+    name:  name ~ '[content]',
+    value: editor.content
+}) }}
+
+{% set modeNames = editor.getModes %}
+{% set availableModeOptions = [] %}
+{% for availableMode in settings.availableModes %}
+    {% set availableModeOptions = availableModeOptions|merge([{
+        label: modeNames[availableMode],
+        value: availableMode
+    }]) %}
+{% endfor %}
+
+{{ forms.selectField({
+    id:      name ~ '-mode',
+    name:    name ~ '[mode]',
+    options: availableModeOptions,
+    value:   editor.mode|default(settings.defaultMode)
+}) }}

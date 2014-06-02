@@ -1,0 +1,25 @@
+{%- set name = (name is defined) ? name : editor.name -%}
+<div id="{{ name }}-container" class="ace-container field" style="height: 200px;">
+    <div id="{{ name }}-field" class="ace-editor" data-container-id="{{ name }}-container"></div>
+    {%- if textarea|default(true) -%}
+        <textarea id="{{ name }}-content">{{ editor.content }}</textarea>
+    {%- endif -%}
+</div>
+
+{%- includeJsResource  'acesnippets/ace/ace.js'      -%}
+{%- includeJsResource  'acesnippets/acesnippets.js'  -%}
+{%- includeCssResource 'acesnippets/acesnippets.css' -%}
+
+{%- set aceSnippetsJs -%}
+    AceSnippets.init("{{ editor.name }}", "{{ editor.mode }}", "{{ editor.theme }}", {{ editor.readOnly ? 'true' : 'false' }});
+{%- endset -%}
+{%- includeJs aceSnippetsJs -%}
+
+{%- if not editor.readOnly -%}
+    {%- set changeModeJs -%}
+        $("#{{ editor.name }}-mode").on('change', function(){
+            AceSnippets.changeMode("{{ editor.name }}", $(this).val());
+        });
+    {%- endset -%}
+    {%- includeJs changeModeJs -%}
+{%- endif -%}

@@ -1,0 +1,25 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.selectField({
+    label: 'Theme'|t,
+    id: 'theme',
+    name: 'theme',
+    options: allThemes,
+    value: settings.theme
+}) }}
+
+{{ forms.checkboxSelectField({
+    label: "Available Modes"|t,
+    id: 'availableModes',
+    name: 'availableModes',
+    options: allModes,
+    values: settings.availableModes
+}) }}
+
+{{ forms.selectField({
+    label: 'Default Mode'|t,
+    id: 'defaultMode',
+    name: 'defaultMode',
+    options: allModes,
+    value: settings.defaultMode
+}) }}
